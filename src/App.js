@@ -6,15 +6,16 @@ export default class App extends PureComponent {
     this.state = {
       cityName: '',
       cityData: {},
-      displayData: false
-     
+      displayData: false,
+      hasError: false
+
     }
   };
 
   updateCityState = (evt) => {
     this.setState({
       cityName: evt.target.value,
-      
+
     });
   };
 
@@ -26,11 +27,23 @@ export default class App extends PureComponent {
       cityData: axiosResponse.data[0],
       displayData: true
     });
+  };
+  componentDidCatch(error, info) {
+    // Display fallback UI
+    this.setState({ 
+      hasError: true 
+    });
+    // You can also log the error to an error reporting service
+    // logErrorToMyService(error, info);
   }
   render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1>Something went wrong.</h1>;
+    }
     return (
       <div className="App">
-        <form onSubmit = {this.getCityData}>
+        <form onSubmit={this.getCityData}>
           <br></br>
           <br></br>
           <lable> City Name</lable>
@@ -40,15 +53,17 @@ export default class App extends PureComponent {
           <input type='submit' value='Explore!' />
         </form>
         {
-          this.state.displayData && 
+          this.state.displayData &&
           <div>
-            <p> {this.state.cityData.display_name}</p>
-            <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.0788dbe4910fd378fe6241b0ac26587d&q&center=${this.state.cityData.lat}
-            ,${this.state.cityData.lon}&zoom=30`} alt ='' />
+            <p>{this.state.cityData.display_name}</p>
+            <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.0788dbe4910fd378fe6241b0ac26587d&q&center=${this.state.cityData.lat},
+               ${this.state.cityData.lon}&zoom=10`} alt='' />
+
           </div>
         }
       </div>
     );
+    
   }
 }
 
