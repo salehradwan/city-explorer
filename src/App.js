@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { PureComponent } from 'react'
+import axios from 'axios';
+export default class App extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cityName: '',
+      cityData: {},
+      displayData: false
+     
+    }
+  };
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  updateCityState = (evt) => {
+    this.setState({
+      cityName: evt.target.value,
+      
+    });
+  };
+
+  getCityData = async (evt) => {
+    evt.preventDefault();
+    const axiosResponse = await axios.get(`https://us1.locationiq.com/v1/search.php?key=pk.0788dbe4910fd378fe6241b0ac26587d&q=${this.state.cityName}&format=json`);
+    console.log(axiosResponse);
+    this.setState({
+      cityData: axiosResponse.data[0],
+      displayData: true
+    });
+  }
+  render() {
+    return (
+      <div className="App">
+        <form onSubmit = {this.getCityData}>
+          <br></br>
+          <br></br>
+          <lable> City Name</lable>
+          <input type='text' onChange={this.updateCityState} />
+          <br></br>
+          <br></br>
+          <input type='submit' value='Explore!' />
+        </form>
+        {
+          this.state.displayData && 
+          <div>
+            <p> {this.state.cityData.display_name}</p>
+            <img src={`https://us1.locationiq.com/v1/search.php?key=pk.0788dbe4910fd378fe6241b0ac26587d&q&center=${this.state.cityData.lat}
+            ,${this.state.cityData.lon}&zoom=10`} alt ='' />
+          </div>
+        }
+      </div>
+    );
+  }
 }
-
-export default App;
