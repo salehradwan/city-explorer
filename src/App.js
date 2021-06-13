@@ -43,11 +43,13 @@ export default class App extends PureComponent {
           this.state.displayData && 
           <div>
             <p> {this.state.cityData.display_name}</p>
-            <img src={`https://us1.locationiq.com/v1/search.php?key=pk.0788dbe4910fd378fe6241b0ac26587d&q&center=${this.state.cityData.lat}
-            ,${this.state.cityData.lon}&zoom=10`} alt ='' />
+            <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.0788dbe4910fd378fe6241b0ac26587d&q&center=${this.state.cityData.lat}
+            ,${this.state.cityData.lon}&zoom=30`} alt ='' />
           </div>
         }
       </div>
     );
   }
 }
+
+// https://maps.locationiq.com/v3/streets/r/${10}/${this.state.cityData.lat}/${this.state.cityData.lon}.png?key=pk.0788dbe4910fd378fe6241b0ac26587d
