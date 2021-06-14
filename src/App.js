@@ -16,6 +16,7 @@ export default class App extends PureComponent {
     this.state = {
       cityName: '',
       cityData: {},
+      weatherData: '',
       displayData: false,
       hasError: ''
 
@@ -31,10 +32,13 @@ export default class App extends PureComponent {
   getCityData = async (evt) => {
     evt.preventDefault();
     try {
-      const axiosResponse = await axios.get(`https://us1.locationiq.com/v1/search.php?key=pk.0788dbe4910fd378fe6241b0ac26587d&q=${this.state.cityName}&format=json`);
-      // console.log(axiosResponse);
+      const locationIQResponse = await axios.get(`https://us1.locationiq.com/v1/search.php?key=pk.0788dbe4910fd378fe6241b0ac26587d&q=${this.state.cityName}&format=json`);
+      const weatherResponse = await axios.get(`${process.env.REACT_APP_URL}/weather`);
+
+
       this.setState({
-        cityData: axiosResponse.data[0],
+        cityData: locationIQResponse.data[0],
+        weatherData: weatherResponse.data.data,
         displayData: true,
         alert: false
       });
@@ -58,21 +62,28 @@ export default class App extends PureComponent {
         <Container>
           <Row>
             <Col>
-            <SearchForm
-            getCityData={this.getCityData}
-            updateCityState={this.updateCityState}
-          />
-          {
-            this.state.displayData &&
-            <>
-            <Map
-                cityData={this.state.cityData}
+              <SearchForm
+                getCityData={this.getCityData}
+                updateCityState={this.updateCityState}
               />
-            <CityData 
-                cityData = {this.state.cityData}
-              />
-            </>
-          }
+              {
+                this.state.displayData &&
+                <>
+                  <Map
+                    cityData={this.state.cityData}
+                  />
+                  <CityData
+                    cityData={this.state.cityData}
+                  />
+                  {
+                    this.state.weatherData.map(value => {
+                      return (
+                        <p>{value.weather.description}</p>
+                      )
+                    })
+                  }
+                </>
+              }
             </Col>
           </Row>
         </Container>
