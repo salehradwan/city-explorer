@@ -1,5 +1,15 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import AlertMessage from './components/AlertMessage';
+import SearchForm from './components/SearchForm';
+import CityData from './components/CityData';
+import Map from './components/Map';
 import axios from 'axios';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+
+
 export default class App extends PureComponent {
   constructor(props) {
     super(props);
@@ -41,36 +51,34 @@ export default class App extends PureComponent {
       <div>
         {
           this.state.alert &&
-          alert(`${this.state.hasError}`)
+          <AlertMessage
+            hasError={this.state.hasError}
+          />
         }
-        <div className="App">
-          <form onSubmit={this.getCityData}>
-            <br></br>
-            <br></br>
-            <lable> City Name</lable>
-            <input type='text' onChange={this.updateCityState} />
-            <br></br>
-            <br></br>
-            <input type='submit' value='Explore!' />
-          </form>
+        <Container>
+          <Row>
+            <Col>
+            <SearchForm
+            getCityData={this.getCityData}
+            updateCityState={this.updateCityState}
+          />
           {
             this.state.displayData &&
-            <div>
-              <p></p>
-              <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.0788dbe4910fd378fe6241b0ac26587d&q&center=${this.state.cityData.lat},
-               ${this.state.cityData.lon}&zoom=10`} alt='' />
-               <p>`The City name is: {this.state.cityData.display_name}`</p>
-               <p>`The lat is: {this.state.cityData.lat}`</p>
-               <p>`The lon is: {this.state.cityData.lon}`</p>
-
-            </div>
+            <>
+            <Map
+                cityData={this.state.cityData}
+              />
+            <CityData 
+                cityData = {this.state.cityData}
+              />
+            </>
           }
-        </div>
+            </Col>
+          </Row>
+        </Container>
       </div>
 
     );
 
   }
 }
-
-// https://maps.locationiq.com/v3/streets/r/${10}/${this.state.cityData.lat}/${this.state.cityData.lon}.png?key=pk.0788dbe4910fd378fe6241b0ac26587d
