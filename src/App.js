@@ -35,22 +35,28 @@ export default class App extends PureComponent {
       const locationIQResponse = await axios.get(`https://us1.locationiq.com/v1/search.php?key=pk.0788dbe4910fd378fe6241b0ac26587d&q=${this.state.cityName}&format=json`);
       const weatherResponse = await axios.get(`${process.env.REACT_APP_URL}/weather`);
 
-      try {
-        if (this.state.cityName === 'Seattle' || this.state.cityName === 'Paris' ||
-        this.state.cityName === 'Amman') {
-        this.setState({
-          cityData: locationIQResponse.data[0],
-          weatherData: weatherResponse.data.data,
-          displayData: true,
-          alert: false
-        });
-      }
-      } catch (error) {
-        this.setState({
-          hasError: error.message,
-          alert: true
-        })
-      }
+      // try {
+      //   if (this.state.cityName === 'Seattle' || this.state.cityName === 'Paris' ||
+      //   this.state.cityName === 'Amman') {
+      //   this.setState({
+      //     cityData: locationIQResponse.data[0],
+      //     weatherData: weatherResponse.data.data,
+      //     displayData: true,
+      //     alert: false
+      //   });
+      // }
+      // } catch (error) {
+      //   this.setState({
+      //     hasError: error.message,
+      //     alert: true
+      //   })
+      // }
+      this.setState({
+            cityData: locationIQResponse.data[0],
+            weatherData: weatherResponse.data.data,
+            displayData: true,
+            alert: false
+          });
       
     } catch (error) {
       this.setState({
