@@ -41,35 +41,16 @@ export default class App extends PureComponent {
           lat: locationIQResponse.data[0].lat,
           lon: locationIQResponse.data[0].lon,
         });
-        axios.get(`${process.env.REACT_APP_URL}/weather?lat=${this.state.lat}&lon=${this.state.lon}&include=minutely`).then(weatherResponse => {
+        axios.get(`${process.env.REACT_APP_URL}/weather?lat=${this.state.lat}&lon=${this.state.lon}&include=minutely`)
+        .then(weatherResponse => {
           this.setState({
-            weatherData: weatherResponse.data.data,
+            weatherData: weatherResponse.data,
             displayData: true,
             alert: false
-          });
+          })
         });
       });
 
-
-
-      // const weatherResFromLocall = await axios.get(`${process.env.REACT_APP_PORT}/weather`);
-
-      // try {
-      //   if (this.state.cityName === 'Seattle' || this.state.cityName === 'Paris' ||
-      //   this.state.cityName === 'Amman') {
-      //   this.setState({
-      //     cityData: locationIQResponse.data[0],
-      //     weatherData: weatherResponse.data.data,
-      //     displayData: true,
-      //     alert: false
-      //   });
-      // }
-      // } catch (error) {
-      //   this.setState({
-      //     hasError: error.message,
-      //     alert: true
-      //   })
-      // }
     } catch (error) {
       this.setState({
         hasError: error.message,
