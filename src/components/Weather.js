@@ -3,17 +3,16 @@ import ListGroup from 'react-bootstrap/ListGroup'
 
 export class Weather extends Component {
     render() {
-        console.log('prp',this.props);
+        console.log('wee',this.props);
         return (
             <div>
                 {
-                    this.props.weatherData.map(value => {
+                    this.props.weatherData.map(weatherObj => {
                         return (
                             <>
-        
                                 <ListGroup>
-                                    <ListGroup.Item variant="info">Description: {value.description}</ListGroup.Item>
-                                    <ListGroup.Item variant="info">Date: {value.datetime}</ListGroup.Item>
+                                    <ListGroup.Item variant="info">Description: {weatherObj.description}</ListGroup.Item>
+                                    <ListGroup.Item variant="info">Date: {weatherObj.datetime}</ListGroup.Item>
                                    </ListGroup>
                             </>
                         )

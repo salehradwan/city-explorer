@@ -5,6 +5,7 @@ import Image from 'react-bootstrap/Image'
 
 export class Movies extends Component {
     render() {
+        console.log('moo',this.props);
         return (
             <div>
                 {

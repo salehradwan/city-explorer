@@ -21,6 +21,7 @@ export default class App extends PureComponent {
       lat: '',
       lon: '',
       weatherData: '',
+      movieData: '',
       displayData: false,
       hasError: ''
 
@@ -43,23 +44,23 @@ export default class App extends PureComponent {
           lat: locationIQResponse.data[0].lat,
           lon: locationIQResponse.data[0].lon,
         });
-        axios.get(`${process.env.REACT_APP_PORT}/weather?lat=${this.state.lat}&lon=${this.state.lon}&include=minutely`)
-          .then(weatherResponse => {
-            console.log('wewe',weatherResponse);
+        axios.get(`${process.env.REACT_APP_URL}/weather?lat=${this.state.lat}&lon=${this.state.lon}`)
+        .then(weatherResponse => {
             this.setState({
               weatherData: weatherResponse.data,
-              displayData: true,
+              // displayData: true,
               alert: false
-            })
+            });
+            axios.get(`${process.env.REACT_APP_URL}/movies?query=${this.state.cityName}`).then(movieResponse => {
+              
+              this.setState({
+                movieData: movieResponse.data,
+                displayData: true,
+                alert: false
+              })
+            });
           });
-          axios.get(`${process.env.REACT_APP_PORT}/movies?query=${this.state.cityName}`)
-          .then(movieResponse => {
-            this.setState({
-              movieData: movieResponse.data,
-              displayData: true,
-              alert: false
-            })
-          });
+        
       });
 
     } catch (error) {
@@ -71,6 +72,8 @@ export default class App extends PureComponent {
 
   };
   render() {
+    console.log('movies',this.state.movieData);
+    console.log('weather',this.state.weatherData);
     return (
       <div>
         {
