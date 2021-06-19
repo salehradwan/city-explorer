@@ -12,7 +12,7 @@ export class Weather extends Component {
                             <>
                                 <ListGroup>
                                     <ListGroup.Item variant="info">Description: {weatherObj.description}</ListGroup.Item>
-                                    <ListGroup.Item variant="info">Date: {weatherObj.datetime}</ListGroup.Item>
+                                    <ListGroup.Item variant="info">Date: {weatherObj.date}</ListGroup.Item>
                                    </ListGroup>
                             </>
                         )
