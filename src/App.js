@@ -52,7 +52,6 @@ export default class App extends PureComponent {
               alert: false
             });
             axios.get(`${process.env.REACT_APP_URL}/movies?query=${this.state.cityName}`).then(movieResponse => {
-              
               this.setState({
                 movieData: movieResponse.data,
                 displayData: true,
